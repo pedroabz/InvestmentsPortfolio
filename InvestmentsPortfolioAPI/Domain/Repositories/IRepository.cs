@@ -12,16 +12,18 @@ namespace InvestmentsPortfolioAPI.Domain.Repositories
 
         void Create(IList<T> entities);
 
-        T Update(T entity);
+        void Create(T entity);
+
+        void Update(T entity);
 
         T FirstOrDefault(Expression<Func<T, bool>> clause);
 
-        IEnumerable<T> Where(Expression<Func<T, bool>> clause);
-
-        IEnumerable<TResult> Select<TResult>(Expression<Func<T, TResult>> selector);
+        IEnumerable<T> Where(Expression<Func<T, bool>> clause);       
 
         T First();
 
         IEnumerable<T> All();
+
+        void Delete (T entity);
     }
 }

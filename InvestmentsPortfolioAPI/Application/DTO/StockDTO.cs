@@ -1,18 +1,18 @@
-﻿namespace InvestmentsPortfolioAPI.Domain.Models
+﻿namespace InvestmentsPortfolioAPI.Application.DTO
 {
-    public class Stock : BaseEntity
+    public class StockDTO
     {
         public string Code { get; set; }
         public string Name { get; set; }
-        public Stock() : base()
+        public StockDTO()
         {
+
         }
 
-        public Stock(string code, string name) : base()
+        public StockDTO(string code, string name) : base()
         {
             Code = code;
             Name = name;
         }
     }
-    
 }

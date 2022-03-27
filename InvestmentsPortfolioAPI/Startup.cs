@@ -17,6 +17,7 @@ using InvestmentsPortfolioAPI.Infra.EF;
 using Microsoft.EntityFrameworkCore;
 using InvestmentsPortfolioAPI.Domain.Repositories;
 using InvestmentsPortfolioAPI.Domain.Models;
+using InvestmentsPortfolioAPI.Application.ApplicationServices;
 
 namespace InvestmentsPortfolioAPI
 {
@@ -43,7 +44,9 @@ namespace InvestmentsPortfolioAPI
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
 
+            services.AddScoped<IRepository<StockQuote>, Repository<StockQuote>>();
             services.AddScoped<IRepository<Stock>, Repository<Stock>>();
+            services.AddScoped<IStockQuoteApplicationService, StockQuoteApplicationService>();
 
             services.AddDbContext<InvestmentsPortfolioDBContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
