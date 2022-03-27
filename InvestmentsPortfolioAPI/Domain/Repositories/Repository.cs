@@ -27,29 +27,40 @@ namespace InvestmentsPortfolioAPI.Domain.Repositories
             _dbcontext.SaveChanges();
         }
 
+        public void Create(T entity)
+        {
+            _dbcontext.Add(entity);
+            _dbcontext.SaveChanges();
+        }
+
+        public void Delete(T entity)
+        {
+            _dbcontext.Remove(entity);
+            _dbcontext.SaveChanges();
+        }
+
         public T First()
         {
-            throw new NotImplementedException();
+            var entity = _dbcontext.Set<T>();
+            return entity.First();
         }
 
         public T FirstOrDefault(Expression<Func<T, bool>> clause)
         {
-            throw new NotImplementedException();
+            var entity = _dbcontext.Set<T>();
+            return entity.FirstOrDefault(clause);
         }
 
-        public IEnumerable<TResult> Select<TResult>(Expression<Func<T, TResult>> selector)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Update(T entity)
-        {
-            throw new NotImplementedException();
+        public void Update(T entity)
+        {            
+            _dbcontext.Update(entity);
+            _dbcontext.SaveChanges();         
         }
 
         public IEnumerable<T> Where(Expression<Func<T, bool>> clause)
         {
-            throw new NotImplementedException();
+            var entity = _dbcontext.Set<T>();
+            return entity.Where(clause);
         }
     }
 
