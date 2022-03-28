@@ -15,9 +15,12 @@ using System.IO;
 using System.Reflection;
 using InvestmentsPortfolioAPI.Infra.EF;
 using Microsoft.EntityFrameworkCore;
-using InvestmentsPortfolioAPI.Domain.Repositories;
-using InvestmentsPortfolioAPI.Domain.Models;
-using InvestmentsPortfolioAPI.Application.ApplicationServices;
+using InvestmentsPortfolio.Domain.Repositories;
+using InvestmentsPortfolio.Domain.Models;
+using InvestmentsPortfolio.Application.ApplicationServices;
+using InvestmentsPortfolio.Infra.Repositories;
+using InvestmentsPortfolio.Application.ApplicationServices.Interfaces;
+using InvestmentsPortfolio.Application.ApplicationServices;
 
 namespace InvestmentsPortfolioAPI
 {
@@ -47,6 +50,7 @@ namespace InvestmentsPortfolioAPI
             services.AddScoped<IRepository<StockQuote>, Repository<StockQuote>>();
             services.AddScoped<IRepository<Stock>, Repository<Stock>>();
             services.AddScoped<IStockQuoteApplicationService, StockQuoteApplicationService>();
+            services.AddScoped<IStockApplicationService, StockApplicationService>();
 
             services.AddDbContext<InvestmentsPortfolioDBContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

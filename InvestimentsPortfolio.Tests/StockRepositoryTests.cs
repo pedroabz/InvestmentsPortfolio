@@ -1,5 +1,5 @@
-﻿using InvestmentsPortfolioAPI.Domain.Models;
-using InvestmentsPortfolioAPI.Domain.Repositories;
+﻿using InvestmentsPortfolio.Domain.Models;
+using InvestmentsPortfolio.Domain.Repositories;
 using InvestmentsPortfolioAPI.Infra.EF;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,6 +9,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using FluentAssertions;
 using System.Linq;
+using InvestmentsPortfolio.Infra.Repositories;
 
 namespace InvestimentsPortfolio.Tests
 {

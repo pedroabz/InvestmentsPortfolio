@@ -1,9 +1,11 @@
-﻿using InvestmentsPortfolioAPI.Application.DTO;
-using InvestmentsPortfolioAPI.Application.HttpMessages;
-using InvestmentsPortfolioAPI.Application.Mappers;
-using InvestmentsPortfolioAPI.Domain.Models;
-using InvestmentsPortfolioAPI.Domain.Repositories;
+﻿using InvestmentsPortfolio.Application.ApplicationServices.Interfaces;
+using InvestmentsPortfolio.Application.DTO;
+using InvestmentsPortfolio.Application.Mappers;
+using InvestmentsPortfolio.Application.Response;
+using InvestmentsPortfolio.Domain.Models;
+using InvestmentsPortfolio.Domain.Repositories;
 using InvestmentsPortfolioAPI.Exceptions;
+using InvestmentsPortfolioAPI.HttpMessages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvestmentsPortfolioAPI.Controllers
@@ -11,43 +13,30 @@ namespace InvestmentsPortfolioAPI.Controllers
 
     public class StockController : BaseController
     {
-        public readonly IRepository<Stock> _stockRepository;
-        public StockController(IRepository<Stock> stockRepository)
+        public readonly IStockApplicationService _service;
+        public StockController(IStockApplicationService service)
         {
-            _stockRepository = stockRepository;
+            _service = service;
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] StockDTO newStock)
+        public ActionResult<StockResponse> Post([FromBody] StockRequest newStock)
         {
-            if (_stockRepository.FirstOrDefault(x => x.Code == newStock.Code) != null)
-                throw new BadRequestException(StockMessages.StockAlreadyExists);
-            _stockRepository.Create(newStock.ToModel());
-            return Ok();
+            return _service.CreateStock(newStock);
         }
 
         [Route ("{code}")]
         [HttpGet]
         public IActionResult Get (string code)
-        {
-            var stock = _stockRepository.FirstOrDefault(x => x.Code == code);
-            if (stock == null)
-                return NotFound(StockMessages.NoStockWithThisCode);
-            return Ok(stock.ToDto());
+        {                                   
+            return Ok(_service.GetStock(code));
         }
 
         [Route("{code}")]
         [HttpDelete]
-        public IActionResult Delete(string code)
+        public ActionResult<StockResponse> Delete(string code)
         {
-            var stockToDelete = _stockRepository.FirstOrDefault(x => x.Code == code);
-            if (stockToDelete != null)
-            {            
-                _stockRepository.Delete(stockToDelete);
-                return Ok();
-            }
-
-            return NotFound(StockMessages.NoStockWithThisCode);
+            return _service.Delete(code);
         }
     }
 }

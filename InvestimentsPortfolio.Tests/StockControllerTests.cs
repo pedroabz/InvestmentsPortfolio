@@ -1,5 +1,6 @@
-﻿using InvestmentsPortfolioAPI.Domain.Models;
-using InvestmentsPortfolioAPI.Domain.Repositories;
+﻿using InvestmentsPortfolio.Infra.Repositories;
+using InvestmentsPortfolio.Domain.Models;
+using InvestmentsPortfolio.Domain.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
