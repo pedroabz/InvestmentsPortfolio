@@ -10,12 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace InvestmentsPortfolioAPI.Controllers
-{
-    //TODO: Implementar Exceptions
-    //TODO: Mudar lógicas nos controllers p/ applications
-    //TODO: Mudar Exceptions para error middleware --> https://jasonwatmore.com/post/2020/10/02/aspnet-core-31-global-error-handler-tutorial
+{  
     //TODO: Soft Delete nas classes https://www.thereformedprogrammer.net/ef-core-in-depth-soft-deleting-data-with-global-query-filters/#:~:text=You%20can%20add%20a%20soft,restored%20and%20history%20is%20preserved.
-    //TODO: Separa Classe Stock, StockQuote, User e StockUserAggregate
+    //TODO: Implementar  Testes Unitários
     //TODO: Implementar Swagger bem documentado
     //TODO: Implementar busca em API para cotação dólar real
     //TODO: Investigar Automapper (provavelmente farei no projeto CSharpResources)

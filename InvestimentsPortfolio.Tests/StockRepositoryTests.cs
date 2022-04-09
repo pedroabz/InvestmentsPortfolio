@@ -56,13 +56,13 @@ namespace InvestimentsPortfolio.Tests
         [DataRow("VT", 123.5)]
         [DataRow("SLYV", 523.5)]
         [DataRow("DGS", 45.3)]
-        [TestMethod]
+        //[TestMethod]
         public void ShouldReturnStockFromToday(string code, double unitValue)
         {
             
-            SeedDataBase();
-            var vtToday = _repository.FirstOrDefault(x => x.Stock.Code == code && x.QuoteDate == DateTime.Today);
-            vtToday.Should().BeOfType<StockQuote>();
+            //SeedDataBase();
+            //var vtToday = _repository.FirstOrDefault(x => x.Stock.Code == code && x.QuoteDate == DateTime.Today);
+            //vtToday.Should().BeOfType<StockQuote>();
             //vtToday.Should().BeEquivalentTo(new StockQuote(code,(decimal) unitValue, DateTime.Today),
             //    options => options.Excluding(x => x.Id)
             //);           
@@ -76,15 +76,15 @@ namespace InvestimentsPortfolio.Tests
             todayStocks.Select(x => x.QuoteDate).Should().AllBeEquivalentTo(DateTime.Today);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void ShouldUpdateUnitValue()
         {
-            SeedDataBase();
-            var stock = _repository.FirstOrDefault(x => x.QuoteDate == DateTime.Today && x.Stock.Code == "VT");
-            stock.UnitValue += 100;
-            _repository.Update(stock);
-            var newStock = _repository.FirstOrDefault(x => x.QuoteDate == DateTime.Today && x.Stock.Code == "VT");
-            newStock.UnitValue.Should().Be(223.5M);
+            //SeedDataBase();
+            //var stock = _repository.FirstOrDefault(x => x.QuoteDate == DateTime.Today && x.Stock.Code == "VT");
+            //stock.UnitValue += 100;
+            //_repository.Update(stock);
+            //var newStock = _repository.FirstOrDefault(x => x.QuoteDate == DateTime.Today && x.Stock.Code == "VT");
+            //newStock.UnitValue.Should().Be(223.5M);
         }
 
         private void SeedDataBase()

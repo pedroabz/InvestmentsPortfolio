@@ -22,14 +22,14 @@ namespace InvestmentsPortfolioAPI.Controllers
         [HttpPost]
         public ActionResult<StockResponse> Post([FromBody] StockRequest newStock)
         {
-            return _service.CreateStock(newStock);
+            return _service.Create(newStock);
         }
 
         [Route ("{code}")]
         [HttpGet]
         public IActionResult Get (string code)
         {                                   
-            return Ok(_service.GetStock(code));
+            return Ok(_service.Get(code));
         }
 
         [Route("{code}")]

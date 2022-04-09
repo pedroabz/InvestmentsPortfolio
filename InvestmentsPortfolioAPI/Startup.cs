@@ -48,8 +48,8 @@ namespace InvestmentsPortfolioAPI
             });
 
             services.AddScoped<IRepository<StockQuote>, Repository<StockQuote>>();
-            services.AddScoped<IRepository<Stock>, Repository<Stock>>();
             services.AddScoped<IStockQuoteApplicationService, StockQuoteApplicationService>();
+            services.AddScoped<IRepository<Stock>, Repository<Stock>>();
             services.AddScoped<IStockApplicationService, StockApplicationService>();
 
             services.AddDbContext<InvestmentsPortfolioDBContext>(options =>

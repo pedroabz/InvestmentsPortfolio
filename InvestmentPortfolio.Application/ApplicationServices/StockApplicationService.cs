@@ -20,14 +20,14 @@ namespace InvestmentsPortfolio.Application.ApplicationServices
             _stockRepository = stockRepository;
         }
 
-        StockResponse IStockApplicationService.CreateStock(StockRequest newStock)
+        public StockResponse Create(StockRequest newStock)
         {
             if (_stockRepository.FirstOrDefault(x => x.Code == newStock.Code) != null)
                 throw new BadRequestException(StockMessages.StockAlreadyExists);
             return _stockRepository.Create(newStock.ToModel()).ToResponse();            
         }
 
-        StockResponse IStockApplicationService.Delete(string code)
+        public StockResponse Delete(string code)
         {
             var stockToDelete = _stockRepository.FirstOrDefault(x => x.Code == code);
             if (stockToDelete == null)
@@ -36,7 +36,7 @@ namespace InvestmentsPortfolio.Application.ApplicationServices
             return stockToDelete.ToResponse();
         }
 
-        StockResponse IStockApplicationService.GetStock(string code)
+        public StockResponse Get(string code)
         {
             var stock = _stockRepository.FirstOrDefault(x => x.Code == code);
             if (stock == null)
