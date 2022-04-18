@@ -13,6 +13,7 @@ namespace InvestmentsPortfolioAPI.Controllers
 {  
     //TODO: Soft Delete nas classes https://www.thereformedprogrammer.net/ef-core-in-depth-soft-deleting-data-with-global-query-filters/#:~:text=You%20can%20add%20a%20soft,restored%20and%20history%20is%20preserved.
     //TODO: Implementar  Testes Unitários
+    //TODO: Behavior Tests
     //TODO: Implementar Swagger bem documentado
     //TODO: Implementar busca em API para cotação dólar real
     //TODO: Investigar Automapper (provavelmente farei no projeto CSharpResources)

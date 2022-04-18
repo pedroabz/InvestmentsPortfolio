@@ -2,6 +2,7 @@
 using InvestmentsPortfolio.Application.ApplicationServices;
 using InvestmentsPortfolio.Application.ApplicationServices.Interfaces;
 using InvestmentsPortfolio.Application.DTO;
+using InvestmentsPortfolio.Application.Response;
 using InvestmentsPortfolio.Domain.Models;
 using InvestmentsPortfolio.Domain.Repositories;
 using InvestmentsPortfolio.Infra.Repositories;
@@ -43,24 +44,31 @@ namespace InvestimentsPortfolio.Tests.ApplicationTests
 
         [TestMethod]
         public void ShouldCreateStock()
-        {;
+        {
             var newStockRequest = new StockRequest("TT", "test2");
-            _applicationservice.Create(newStockRequest);
-            var createdStock = _repository.FirstOrDefault(x => x.Code == newStockRequest.Code);
-            createdStock.Name.Should().Be("test2");
-            createdStock.Code.Should().Be("TT");
+            var createdStockResponse = _applicationservice.Create(newStockRequest);
+            createdStockResponse.Should().BeEquivalentTo(new StockResponse {
+                Code = "TT",
+                Name = "test2"
+            }, options => options.Excluding(x => x.Id));
+            
         }
         [TestMethod]
         public void ShouldGetStock()
         {
-            _repository.Create(new Stock("TT", "test"));
-            throw new NotImplementedException();
+            var createdStock = _repository.Create(new Stock("TT", "test"));
+            _applicationservice.Get("TT").Should().BeEquivalentTo(new StockResponse("TT","test",createdStock.Id));
         }
         [TestMethod]
         public void ShouldDeleteStock()
         {
-            _repository.Create(new Stock("TT", "test"));
-            throw new NotImplementedException();
+           _repository.Create(new Stock("TT", "test"));
+            var deletedStockResponse = _applicationservice.Delete("TT");
+            deletedStockResponse.Should().BeEquivalentTo(new StockResponse
+           {
+               Code = "TT",
+               Name = "test"
+           }, options => options.Excluding(x => x.Id)); 
         }
 
         [ExpectedException(typeof(EntityNotFoundException))]
