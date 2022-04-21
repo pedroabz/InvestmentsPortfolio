@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
 using InvestmentsPortfolio.Application.ApplicationServices;
-using InvestmentsPortfolio.Application.ApplicationServices.Interfaces;
+using InvestmentsPortfolio.Application.Commands;
 using InvestmentsPortfolio.Application.DTO;
+using InvestmentsPortfolio.Application.Handlers;
+using InvestmentsPortfolio.Application.Queries;
 using InvestmentsPortfolio.Application.Response;
 using InvestmentsPortfolio.Domain.Models;
 using InvestmentsPortfolio.Domain.Repositories;
@@ -10,13 +12,14 @@ using InvestmentsPortfolioAPI.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace InvestimentsPortfolio.Tests.ApplicationTests
 {
     [TestClass]
     public class StockApplicationServiceTests : BaseDbTests
     {
-        private IStockApplicationService _applicationservice;
         private IRepository<Stock> _repository; 
         public StockApplicationServiceTests() : base()
         {
@@ -26,27 +29,27 @@ namespace InvestimentsPortfolio.Tests.ApplicationTests
         public void Setup()
         {
             _services.AddScoped<IRepository<Stock>, Repository<Stock>>();
-            _services.AddScoped<IStockApplicationService, StockApplicationService>();
             base.SetupDBTestDependencies();
             var serviceProvider = _services.BuildServiceProvider();
             _repository = serviceProvider.GetService<IRepository<Stock>>();
-            _applicationservice = serviceProvider.GetService<IStockApplicationService>();
         }
 
         [ExpectedException(typeof(BadRequestException))]
         [TestMethod]
         public void ShouldThrowExceptionWhenCreatingStockThatExists()
         {
+            var handler = new CreateStockHandler(_repository);
             _repository.Create(new Stock("TT", "test"));
-            var newStockRequest = new StockRequest("TT", "test2");
-            _applicationservice.Create(newStockRequest);
+            var newStockRequest = new CreateStockCommand("TT", "test2");
+            handler.Handle(newStockRequest, new CancellationToken()).GetAwaiter().GetResult();
         }
 
         [TestMethod]
         public void ShouldCreateStock()
         {
-            var newStockRequest = new StockRequest("TT", "test2");
-            var createdStockResponse = _applicationservice.Create(newStockRequest);
+            var handler = new CreateStockHandler(_repository);
+            var newStockRequest = new CreateStockCommand("TT", "test2");
+            var createdStockResponse = handler.Handle(newStockRequest, new CancellationToken()).GetAwaiter().GetResult();
             createdStockResponse.Should().BeEquivalentTo(new StockResponse {
                 Code = "TT",
                 Name = "test2"
@@ -56,14 +59,17 @@ namespace InvestimentsPortfolio.Tests.ApplicationTests
         [TestMethod]
         public void ShouldGetStock()
         {
+            var handler = new GetStockHandler(_repository);
             var createdStock = _repository.Create(new Stock("TT", "test"));
-            _applicationservice.Get("TT").Should().BeEquivalentTo(new StockResponse("TT","test",createdStock.Id));
+            var result = handler.Handle(new GetStockQuery("TT"), new CancellationToken()).GetAwaiter().GetResult();
+            result.Should().BeEquivalentTo(new StockResponse("TT", "test", createdStock.Id));           
         }
         [TestMethod]
         public void ShouldDeleteStock()
         {
+            var handler = new DeleteStockHandler(_repository);
            _repository.Create(new Stock("TT", "test"));
-            var deletedStockResponse = _applicationservice.Delete("TT");
+            var deletedStockResponse = handler.Handle(new DeleteStockCommand("TT"), new CancellationToken()).GetAwaiter().GetResult();
             deletedStockResponse.Should().BeEquivalentTo(new StockResponse
            {
                Code = "TT",
@@ -75,14 +81,16 @@ namespace InvestimentsPortfolio.Tests.ApplicationTests
         [TestMethod]
         public void ShouldThrowExceptionWhenDeletingStockThatDoesNotExist()
         {
-            _applicationservice.Delete("NonExistant");
+            var handler = new DeleteStockHandler(_repository);            
+            var deletedStockResponse = handler.Handle(new DeleteStockCommand("NonExistant"), new CancellationToken()).GetAwaiter().GetResult();
         }
 
         [ExpectedException(typeof(EntityNotFoundException))]
         [TestMethod]
         public void ShouldThrowExceptionWhenGettingStockThatDoesNotExist()
         {
-            _applicationservice.Get("NonExistant");
+            var handler = new GetStockHandler(_repository);
+            handler.Handle(new GetStockQuery("NonExistant"), new System.Threading.CancellationToken()).GetAwaiter().GetResult();
         }
     }
 }

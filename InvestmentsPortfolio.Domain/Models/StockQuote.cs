@@ -7,9 +7,9 @@ namespace InvestmentsPortfolio.Domain.Models
 {
     public class StockQuote : BaseEntity
     {
-        public Stock Stock { get; set; }
-        public DateTime QuoteDate { get; set; }
-        public decimal UnitValue { get; set; }
+        public Stock Stock { get; }
+        public DateTime QuoteDate { get; private set; }
+        public decimal UnitValue { get; }
         public StockQuote()
         {
         }

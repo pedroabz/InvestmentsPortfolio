@@ -2,9 +2,9 @@
 {
     public abstract class Movement : BaseEntity
     {
-        public int Quantity { get; set; }
-        public decimal AverageValue { get; set; }
-        public string Currency { get; set; }
+        public int Quantity { get; }
+        public decimal AverageValue { get; }
+        public string Currency { get; }
         public Movement() : base()
         {
 

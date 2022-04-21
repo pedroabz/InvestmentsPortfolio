@@ -1,4 +1,5 @@
-﻿using InvestmentsPortfolio.Application.DTO;
+﻿using InvestmentsPortfolio.Application.Commands;
+using InvestmentsPortfolio.Application.DTO;
 using InvestmentsPortfolio.Application.Response;
 using InvestmentsPortfolio.Domain.Models;
 
@@ -11,7 +12,7 @@ namespace InvestmentsPortfolio.Application.Mappers
             return new StockResponse(stock.Code, stock.Name, stock.Id);
         }
 
-        public static Stock ToModel(this StockRequest stock)
+        public static Stock ToModel(this CreateStockCommand stock)
         {
             return new Stock(stock.Code, stock.Name);
         }

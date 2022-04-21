@@ -2,9 +2,9 @@
 {
     public class Stock : BaseEntity
     {
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public Stock() : base()
+        public string Code { get; private set; }
+        public string Name { get; }
+        private Stock() : base()
         {
         }
 

@@ -1,42 +1,50 @@
-﻿using InvestmentsPortfolio.Application.ApplicationServices.Interfaces;
+﻿using InvestmentsPortfolio.Application.Commands;
 using InvestmentsPortfolio.Application.DTO;
 using InvestmentsPortfolio.Application.Mappers;
+using InvestmentsPortfolio.Application.Queries;
 using InvestmentsPortfolio.Application.Response;
 using InvestmentsPortfolio.Domain.Models;
 using InvestmentsPortfolio.Domain.Repositories;
 using InvestmentsPortfolioAPI.Exceptions;
 using InvestmentsPortfolioAPI.HttpMessages;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace InvestmentsPortfolioAPI.Controllers
 {
 
     public class StockController : BaseController
     {
-        public readonly IStockApplicationService _service;
-        public StockController(IStockApplicationService service)
+        private readonly IMediator _mediator;
+
+        public StockController( IMediator mediator)
         {
-            _service = service;
+            _mediator = mediator;
         }
 
         [HttpPost]
-        public ActionResult<StockResponse> Post([FromBody] StockRequest newStock)
+        public async Task<ActionResult<StockResponse>> Post([FromBody] CreateStockCommand newStock)
         {
-            return _service.Create(newStock);
+            return await _mediator.Send(newStock);
         }
 
         [Route ("{code}")]
         [HttpGet]
-        public IActionResult Get (string code)
-        {                                   
-            return Ok(_service.Get(code));
+        public async Task<IActionResult> Get (string code)
+        {
+            var stockQuery = new GetStockQuery(code);
+            var result = await _mediator.Send(stockQuery);
+            return Ok(result);
         }
 
         [Route("{code}")]
         [HttpDelete]
-        public ActionResult<StockResponse> Delete(string code)
+        public async Task<ActionResult<StockResponse>> Delete(string code)
         {
-            return _service.Delete(code);
+            var deleteCommand = new DeleteStockCommand(code);
+            var result = await _mediator.Send(deleteCommand);
+            return Ok(result);
         }
     }
 }
