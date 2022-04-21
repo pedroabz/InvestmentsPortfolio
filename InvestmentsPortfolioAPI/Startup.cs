@@ -17,7 +17,6 @@ using InvestmentsPortfolioAPI.Infra.EF;
 using Microsoft.EntityFrameworkCore;
 using InvestmentsPortfolio.Domain.Repositories;
 using InvestmentsPortfolio.Domain.Models;
-using InvestmentsPortfolio.Application.ApplicationServices;
 using InvestmentsPortfolio.Infra.Repositories;
 using MediatR;
 using InvestmentsPortfolio.Application.Handlers;
@@ -47,8 +46,6 @@ namespace InvestmentsPortfolioAPI
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
             
-            services.AddScoped<IRepository<StockQuote>, Repository<StockQuote>>();
-            services.AddScoped<IStockQuoteApplicationService, StockQuoteApplicationService>();
             services.AddScoped<IRepository<Stock>, Repository<Stock>>();
             services.AddMediatR(typeof(GetStockHandler));
             services.AddDbContext<InvestmentsPortfolioDBContext>(options =>

@@ -1,12 +1,6 @@
 ﻿using InvestmentsPortfolio.Application.Commands;
-using InvestmentsPortfolio.Application.DTO;
-using InvestmentsPortfolio.Application.Mappers;
 using InvestmentsPortfolio.Application.Queries;
 using InvestmentsPortfolio.Application.Response;
-using InvestmentsPortfolio.Domain.Models;
-using InvestmentsPortfolio.Domain.Repositories;
-using InvestmentsPortfolioAPI.Exceptions;
-using InvestmentsPortfolioAPI.HttpMessages;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

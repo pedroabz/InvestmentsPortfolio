@@ -1,5 +1,4 @@
 ﻿using InvestmentsPortfolio.Application.Commands;
-using InvestmentsPortfolio.Application.DTO;
 using InvestmentsPortfolio.Application.Response;
 using InvestmentsPortfolio.Domain.Models;
 
